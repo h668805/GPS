@@ -1,20 +1,21 @@
 package no.hvl.dat100ptc.oppgave3;
 
-import static java.lang.Math.*;
+import static java.lang.Math.atan2;
+import static java.lang.Math.cos;
+import static java.lang.Math.pow;
+import static java.lang.Math.sin;
+import static java.lang.Math.sqrt;
+import static java.lang.Math.toRadians;
 
-import no.hvl.dat100ptc.TODO;
 import no.hvl.dat100ptc.oppgave1.GPSPoint;
 
 public class GPSUtils {
 
 	public static double findMax(double[] da) {
-
-		double max;
-
-		max = da[0];
+		double max = da[0];
 
 		for (double d : da) {
-			if (d > max) {
+			if (max < d) {
 				max = d;
 			}
 		}
@@ -23,13 +24,10 @@ public class GPSUtils {
 	}
 
 	public static double findMin(double[] da) {
-
-		double min;
-
-		min = da[0];
+		double min = da[0];;
 
 		for (double d : da) {
-			if (min < d) {
+			if (d < min) {
 				min = d;
 			}
 		}
@@ -64,24 +62,20 @@ public class GPSUtils {
 	private static int R = 6371000; // jordens radius
 
 	public static double distance(GPSPoint gpspoint1, GPSPoint gpspoint2) {
-
-		double a, c, d;
-		double latitude1, longitude1, latitude2, longitude2;
+		double latitude1 = toRadians(gpspoint1.getLatitude());
+		double latitude2 = toRadians(gpspoint2.getLatitude());
 		
-		latitude1 = Math.toRadians(gpspoint1.getLatitude());
-		latitude2 = Math.toRadians(gpspoint2.getLatitude());
-		double lat = latitude2-latitude1;
-		longitude1 = Math.toRadians(gpspoint1.getLongitude());
-		longitude2 = Math.toRadians(gpspoint2.getLongitude());
-		double lon = longitude2-longitude1;
+		double latitude = latitude2-latitude1;
 		
-		a = Math.pow(Math.sin(lat/2), 2) + Math.cos(latitude1)*Math.cos(latitude2)*Math.pow(sin(lon/2), 2);
+		double longitude1 = toRadians(gpspoint1.getLongitude());
+		double longitude2 = toRadians(gpspoint2.getLongitude());
+		double longitude = longitude2-longitude1;
 		
-		c = 2 * Math.atan2(sqrt(a), sqrt(1-a));
+		double a = pow(sin(latitude/2), 2) + cos(latitude1)*cos(latitude2)*pow(sin(longitude/2), 2);
 		
-		d = R * c;
+		double c = 2 * atan2(sqrt(a), sqrt(1-a));
 		
-		return d;
+		return R * c;
 	}
 
 	public static double speed(GPSPoint gpspoint1, GPSPoint gpspoint2) {
@@ -95,12 +89,12 @@ public class GPSUtils {
 	public static String formatTime(int secs) {
 		String TIMESEP = ":";
 
-		return String.format("%10s", String.format("%12d%s%d%s%d", secs/3600, TIMESEP, (secs%3600)/60, TIMESEP, (secs%3600)%60));
+		return String.format("%10s", String.format("%2d%s%2d%s%2d", secs/3600, TIMESEP, (secs%3600)/60, TIMESEP, (secs%3600)%60));
 	}
 
 	private static int TEXTWIDTH = 10;
 
 	public static String formatDouble(double d) {
-		return String.format("%10s", "" + Math.round(d*100)/100.0);
+		return String.format("%" + TEXTWIDTH + ".2f", d);
 	}
 }
