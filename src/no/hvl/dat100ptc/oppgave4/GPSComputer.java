@@ -87,14 +87,7 @@ public class GPSComputer {
 	}
 
 	public double averageSpeed() {
-		double[] speeds = speeds();
-		double average = 0;
-
-		for (double s : speeds) {
-			average += s;
-		}
-
-		return average / speeds.length;
+		return totalDistance()/totalTime()*3.6;
 	}
 
 	/*
@@ -149,18 +142,18 @@ public class GPSComputer {
 	public void displayStatistics() {
 		System.out.println("==============================================");
 
-		System.out.println(String.format("%15-s: %s", "Total Time", GPSUtils.formatTime(totalTime())));
+		System.out.println(String.format("%-15s: %s", "Total Time", GPSUtils.formatTime(totalTime())));
 
 		System.out.println(
-				String.format("%15-s: %s km", "Total Distance", GPSUtils.formatDouble(totalDistance() / 1000.0)));
+				String.format("%-15s: %s km", "Total Distance", GPSUtils.formatDouble(totalDistance() / 1000.0)));
 
-		System.out.println(String.format("%15-s: %s m", "Total elevation", GPSUtils.formatDouble(totalElevation())));
+		System.out.println(String.format("%-15s: %s m", "Total elevation", GPSUtils.formatDouble(totalElevation())));
 
-		System.out.println(String.format("%15-s: %s km/h", "Max Speed", GPSUtils.formatDouble(maxSpeed())));
+		System.out.println(String.format("%-15s: %s km/h", "Max Speed", GPSUtils.formatDouble(maxSpeed())));
 
-		System.out.println(String.format("%15-s: %s km/h", "Average Speed", GPSUtils.formatDouble(averageSpeed())));
+		System.out.println(String.format("%-15s: %s km/h", "Average Speed", GPSUtils.formatDouble(averageSpeed())));
 
-		System.out.println(String.format("%15-s: %s kcal", "Energy", GPSUtils.formatDouble(totalKcal(WEIGHT))));
+		System.out.println(String.format("%-15s: %s kcal", "Energy", GPSUtils.formatDouble(totalKcal(WEIGHT))));
 
 		System.out.println("==============================================");
 	}
